@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Assigment1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BadWords">
+          <Key>
+            <PropertyRef Name="BadId" />
+          </Key>
+          <Property Name="BadId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BadWord1" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Blog">
+          <Key>
+            <PropertyRef Name="BlogId" />
+          </Key>
+          <Property Name="BlogId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BlogPostTitle" Type="varchar" MaxLength="255" />
+          <Property Name="TextPost" Type="varchar" MaxLength="2000" />
+          <Property Name="DateCreated" Type="datetime" />
+          <Property Name="author" Type="varchar" MaxLength="255" />
+          <Property Name="availableFlag" Type="varchar" MaxLength="3" />
+          <Property Name="short_description" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Comments">
+          <Key>
+            <PropertyRef Name="Comment_id" />
+          </Key>
+          <Property Name="Comment_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="User_firstname" Type="varchar" MaxLength="255" />
+          <Property Name="Comment_text" Type="varchar" MaxLength="255" />
+          <Property Name="date_Comment" Type="date" />
+          <Property Name="FK_Blog_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="255" />
+          <Property Name="LastName" Type="varchar" MaxLength="255" />
+          <Property Name="Email" Type="varchar" MaxLength="255" />
+          <Property Name="Pass" Type="varchar" MaxLength="255" />
+          <Property Name="PhoneNumber" Type="varchar" MaxLength="255" />
+          <Property Name="DateBirth" Type="date" />
+          <Property Name="Country" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <Association Name="FK__Comments__FK_Blo__36B12243">
+          <End Role="Blog" Type="Self.Blog" Multiplicity="0..1" />
+          <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Blog">
+              <PropertyRef Name="BlogId" />
+            </Principal>
+            <Dependent Role="Comments">
+              <PropertyRef Name="FK_Blog_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Assigment1StoreContainer">
+          <EntitySet Name="BadWords" EntityType="Self.BadWords" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Blog" EntityType="Self.Blog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Comments" EntityType="Self.Comments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Comments__FK_Blo__36B12243" Association="Self.FK__Comments__FK_Blo__36B12243">
+            <End Role="Blog" EntitySet="Blog" />
+            <End Role="Comments" EntitySet="Comments" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Assigment1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Pass" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DateBirth" Type="DateTime" Precision="0" />
+          <Property Name="Country" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="Assigment1Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="Comments" EntityType="Assigment1.Comment" />
+          <EntitySet Name="Blogs" EntityType="Assigment1.Blog" />
+          <AssociationSet Name="FK__Comments__FK_Blo__36B12243" Association="Assigment1.FK__Comments__FK_Blo__36B12243">
+            <End Role="Blog" EntitySet="Blogs" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <EntitySet Name="BadWords" EntityType="Assigment1.BadWord" />
+        </EntityContainer>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="Comment_id" />
+          </Key>
+          <Property Name="Comment_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User_firstname" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Comment_text" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="date_Comment" Type="DateTime" Precision="0" />
+          <Property Name="FK_Blog_id" Type="Int32" />
+          <NavigationProperty Name="Blog" Relationship="Assigment1.FK__Comments__FK_Blo__36B12243" FromRole="Comment" ToRole="Blog" />
+        </EntityType>
+        <EntityType Name="Blog">
+          <Key>
+            <PropertyRef Name="BlogId" />
+          </Key>
+          <Property Name="BlogId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BlogPostTitle" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TextPost" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="author" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="availableFlag" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="short_description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Comments" Relationship="Assigment1.FK__Comments__FK_Blo__36B12243" FromRole="Blog" ToRole="Comment" />
+        </EntityType>
+        <Association Name="FK__Comments__FK_Blo__36B12243">
+          <End Type="Assigment1.Blog" Role="Blog" Multiplicity="0..1" />
+          <End Type="Assigment1.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Blog">
+              <PropertyRef Name="BlogId" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="FK_Blog_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BadWord">
+          <Key>
+            <PropertyRef Name="BadId" />
+          </Key>
+          <Property Name="BadId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BadWord1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Assigment1StoreContainer" CdmEntityContainer="Assigment1Entities">
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="Assigment1.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Pass" ColumnName="Pass" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="DateBirth" ColumnName="DateBirth" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Comments">
+            <EntityTypeMapping TypeName="Assigment1.Comment">
+              <MappingFragment StoreEntitySet="Comments">
+                <ScalarProperty Name="FK_Blog_id" ColumnName="FK_Blog_id" />
+                <ScalarProperty Name="date_Comment" ColumnName="date_Comment" />
+                <ScalarProperty Name="Comment_text" ColumnName="Comment_text" />
+                <ScalarProperty Name="User_firstname" ColumnName="User_firstname" />
+                <ScalarProperty Name="Comment_id" ColumnName="Comment_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Blogs">
+            <EntityTypeMapping TypeName="Assigment1.Blog">
+              <MappingFragment StoreEntitySet="Blog">
+                <ScalarProperty Name="short_description" ColumnName="short_description" />
+                <ScalarProperty Name="availableFlag" ColumnName="availableFlag" />
+                <ScalarProperty Name="author" ColumnName="author" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="TextPost" ColumnName="TextPost" />
+                <ScalarProperty Name="BlogPostTitle" ColumnName="BlogPostTitle" />
+                <ScalarProperty Name="BlogId" ColumnName="BlogId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BadWords">
+            <EntityTypeMapping TypeName="Assigment1.BadWord">
+              <MappingFragment StoreEntitySet="BadWords">
+                <ScalarProperty Name="BadWord1" ColumnName="BadWord1" />
+                <ScalarProperty Name="BadId" ColumnName="BadId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
